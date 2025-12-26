@@ -4,54 +4,38 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="CLEANSER">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="pHLevel" Type="decimal" Precision="3" Scale="1" />
-          <Property Name="Form" Type="varchar" MaxLength="30" />
-        </EntityType>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="INGREDIENT">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="IngredientID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IngredientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IngredientName" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="IsSensitive" Type="bit" />
           <Property Name="Description" Type="varchar" MaxLength="500" />
-          <Property Name="LastModified" Type="datetime" />
-        </EntityType>
-        <EntityType Name="MOISTURIZER">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="Texture" Type="varchar" MaxLength="30" />
-          <Property Name="IsNightCream" Type="bit" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="OWNERSHIP">
           <Key>
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="ProductID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" />
           <Property Name="ExpiryDate" Type="date" />
-          <Property Name="LastModified" Type="datetime" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="PRODUCT">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="ProductID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Brand" Type="varchar" MaxLength="100" />
           <Property Name="Category" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="500" />
-          <Property Name="LastModified" Type="datetime" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="PRODUCTINGREDIENT">
           <Key>
@@ -65,93 +49,106 @@
           <Key>
             <PropertyRef Name="LogID" />
           </Key>
-          <Property Name="LogID" Type="int" Nullable="false" />
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="LogDate" Type="date" Nullable="false" />
           <Property Name="SkinRating" Type="int" />
           <Property Name="Notes" Type="varchar" MaxLength="500" />
-          <Property Name="ImageURL" Type="varchar" MaxLength="255" />
-          <Property Name="LastModified" Type="datetime" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ROUTINE">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="RoutineID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="RoutineID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="RoutineName" Type="varchar" MaxLength="100" />
           <Property Name="RoutineType" Type="varchar" MaxLength="30" />
-          <Property Name="LastModified" Type="datetime" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ROUTINESTEP">
           <Key>
-            <PropertyRef Name="RoutineID" />
-            <PropertyRef Name="StepOrder" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoutineID" Type="int" Nullable="false" />
           <Property Name="StepOrder" Type="int" Nullable="false" />
           <Property Name="ProductID" Type="int" Nullable="false" />
           <Property Name="Notes" Type="varchar" MaxLength="300" />
           <Property Name="LastModified" Type="datetime" />
         </EntityType>
-        <EntityType Name="SUNSCREEN">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="SPFValue" Type="int" />
-          <Property Name="PAProtection" Type="varchar" MaxLength="10" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="PasswordHash" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="SkinType" Type="varchar" MaxLength="50" />
           <Property Name="SkinGoals" Type="varchar" MaxLength="255" />
           <Property Name="Age" Type="int" />
           <Property Name="Allergies" Type="varchar" MaxLength="255" />
-          <Property Name="LastModified" Type="datetime" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
         </EntityType>
-        <Association Name="FK__CLEANSER__Produc__440B1D61">
-          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
-          <End Role="CLEANSER" Type="Self.CLEANSER" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CLEANSER">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MOISTURIZ__Produ__412EB0B6">
-          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
-          <End Role="MOISTURIZER" Type="Self.MOISTURIZER" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MOISTURIZER">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OWNERSHIP__Produ__5165187F">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'skincare companion.dbo.v_AllergyWarnings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_AllergyWarnings">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="IngredientName" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Allergies" Type="varchar" MaxLength="255" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="IngredientName" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'skincare companion.dbo.v_ExpiringInventory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_ExpiringInventory">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ProductName" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="ExpiryDate" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'skincare companion.dbo.v_RoutineDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_RoutineDetail">
+          <Key>
+            <PropertyRef Name="RoutineID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="StepOrder" />
+            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ProductName" />
+          </Key>
+          <Property Name="RoutineID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoutineName" Type="varchar" MaxLength="100" />
+          <Property Name="StepOrder" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OWNERSHIP_PRODUCT">
           <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
           <End Role="OWNERSHIP" Type="Self.OWNERSHIP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="ProductID" />
             </Principal>
             <Dependent Role="OWNERSHIP">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OWNERSHIP__UserI__5070F446">
+        <Association Name="FK_OWNERSHIP_USER">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="OWNERSHIP" Type="Self.OWNERSHIP" Multiplicity="*" />
           <ReferentialConstraint>
@@ -163,31 +160,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PRODUCTIN__Ingre__4BAC3F29">
+        <Association Name="FK_PRODUCTINGREDIENT_INGREDIENT">
           <End Role="INGREDIENT" Type="Self.INGREDIENT" Multiplicity="1" />
           <End Role="PRODUCTINGREDIENT" Type="Self.PRODUCTINGREDIENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="INGREDIENT">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="IngredientID" />
             </Principal>
             <Dependent Role="PRODUCTINGREDIENT">
               <PropertyRef Name="IngredientID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PRODUCTIN__Produ__4AB81AF0">
+        <Association Name="FK_PRODUCTINGREDIENT_PRODUCT">
           <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
           <End Role="PRODUCTINGREDIENT" Type="Self.PRODUCTINGREDIENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="ProductID" />
             </Principal>
             <Dependent Role="PRODUCTINGREDIENT">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PROGRESSR__UserI__5535A963">
+        <Association Name="FK_PROGRESSRECORD_USER">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="PROGRESSRECORD" Type="Self.PROGRESSRECORD" Multiplicity="*" />
           <ReferentialConstraint>
@@ -199,7 +196,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ROUTINE__UserID__59063A47">
+        <Association Name="FK_ROUTINE_USER">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="ROUTINE" Type="Self.ROUTINE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -211,262 +208,251 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ROUTINEST__Produ__5DCAEF64">
+        <Association Name="FK_ROUTINESTEP_PRODUCT">
           <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
           <End Role="ROUTINESTEP" Type="Self.ROUTINESTEP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="ProductID" />
             </Principal>
             <Dependent Role="ROUTINESTEP">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ROUTINEST__Routi__5CD6CB2B">
+        <Association Name="FK_ROUTINESTEP_ROUTINE">
           <End Role="ROUTINE" Type="Self.ROUTINE" Multiplicity="1" />
           <End Role="ROUTINESTEP" Type="Self.ROUTINESTEP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ROUTINE">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="RoutineID" />
             </Principal>
             <Dependent Role="ROUTINESTEP">
               <PropertyRef Name="RoutineID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SUNSCREEN__Produ__3E52440B">
-          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
-          <End Role="SUNSCREEN" Type="Self.SUNSCREEN" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SUNSCREEN">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ModelStoreContainer">
-          <EntitySet Name="CLEANSER" EntityType="Self.CLEANSER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INGREDIENT" EntityType="Self.INGREDIENT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MOISTURIZER" EntityType="Self.MOISTURIZER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OWNERSHIP" EntityType="Self.OWNERSHIP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRODUCTINGREDIENT" EntityType="Self.PRODUCTINGREDIENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROGRESSRECORD" EntityType="Self.PROGRESSRECORD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROUTINE" EntityType="Self.ROUTINE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROUTINESTEP" EntityType="Self.ROUTINESTEP" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SUNSCREEN" EntityType="Self.SUNSCREEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__CLEANSER__Produc__440B1D61" Association="Self.FK__CLEANSER__Produc__440B1D61">
-            <End Role="PRODUCT" EntitySet="PRODUCT" />
-            <End Role="CLEANSER" EntitySet="CLEANSER" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MOISTURIZ__Produ__412EB0B6" Association="Self.FK__MOISTURIZ__Produ__412EB0B6">
-            <End Role="PRODUCT" EntitySet="PRODUCT" />
-            <End Role="MOISTURIZER" EntitySet="MOISTURIZER" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OWNERSHIP__Produ__5165187F" Association="Self.FK__OWNERSHIP__Produ__5165187F">
+          <EntitySet Name="v_AllergyWarnings" EntityType="Self.v_AllergyWarnings" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_AllergyWarnings].[UserID] AS [UserID], 
+    [v_AllergyWarnings].[Allergies] AS [Allergies], 
+    [v_AllergyWarnings].[ProductID] AS [ProductID], 
+    [v_AllergyWarnings].[ProductName] AS [ProductName], 
+    [v_AllergyWarnings].[IngredientName] AS [IngredientName]
+    FROM [dbo].[v_AllergyWarnings] AS [v_AllergyWarnings]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_ExpiringInventory" EntityType="Self.v_ExpiringInventory" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_ExpiringInventory].[UserID] AS [UserID], 
+    [v_ExpiringInventory].[ProductID] AS [ProductID], 
+    [v_ExpiringInventory].[ProductName] AS [ProductName], 
+    [v_ExpiringInventory].[Quantity] AS [Quantity], 
+    [v_ExpiringInventory].[ExpiryDate] AS [ExpiryDate]
+    FROM [dbo].[v_ExpiringInventory] AS [v_ExpiringInventory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_RoutineDetail" EntityType="Self.v_RoutineDetail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_RoutineDetail].[RoutineID] AS [RoutineID], 
+    [v_RoutineDetail].[UserID] AS [UserID], 
+    [v_RoutineDetail].[RoutineName] AS [RoutineName], 
+    [v_RoutineDetail].[StepOrder] AS [StepOrder], 
+    [v_RoutineDetail].[ProductID] AS [ProductID], 
+    [v_RoutineDetail].[ProductName] AS [ProductName]
+    FROM [dbo].[v_RoutineDetail] AS [v_RoutineDetail]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_OWNERSHIP_PRODUCT" Association="Self.FK_OWNERSHIP_PRODUCT">
             <End Role="PRODUCT" EntitySet="PRODUCT" />
             <End Role="OWNERSHIP" EntitySet="OWNERSHIP" />
           </AssociationSet>
-          <AssociationSet Name="FK__OWNERSHIP__UserI__5070F446" Association="Self.FK__OWNERSHIP__UserI__5070F446">
+          <AssociationSet Name="FK_OWNERSHIP_USER" Association="Self.FK_OWNERSHIP_USER">
             <End Role="User" EntitySet="User" />
             <End Role="OWNERSHIP" EntitySet="OWNERSHIP" />
           </AssociationSet>
-          <AssociationSet Name="FK__PRODUCTIN__Ingre__4BAC3F29" Association="Self.FK__PRODUCTIN__Ingre__4BAC3F29">
+          <AssociationSet Name="FK_PRODUCTINGREDIENT_INGREDIENT" Association="Self.FK_PRODUCTINGREDIENT_INGREDIENT">
             <End Role="INGREDIENT" EntitySet="INGREDIENT" />
             <End Role="PRODUCTINGREDIENT" EntitySet="PRODUCTINGREDIENT" />
           </AssociationSet>
-          <AssociationSet Name="FK__PRODUCTIN__Produ__4AB81AF0" Association="Self.FK__PRODUCTIN__Produ__4AB81AF0">
+          <AssociationSet Name="FK_PRODUCTINGREDIENT_PRODUCT" Association="Self.FK_PRODUCTINGREDIENT_PRODUCT">
             <End Role="PRODUCT" EntitySet="PRODUCT" />
             <End Role="PRODUCTINGREDIENT" EntitySet="PRODUCTINGREDIENT" />
           </AssociationSet>
-          <AssociationSet Name="FK__PROGRESSR__UserI__5535A963" Association="Self.FK__PROGRESSR__UserI__5535A963">
+          <AssociationSet Name="FK_PROGRESSRECORD_USER" Association="Self.FK_PROGRESSRECORD_USER">
             <End Role="User" EntitySet="User" />
             <End Role="PROGRESSRECORD" EntitySet="PROGRESSRECORD" />
           </AssociationSet>
-          <AssociationSet Name="FK__ROUTINE__UserID__59063A47" Association="Self.FK__ROUTINE__UserID__59063A47">
+          <AssociationSet Name="FK_ROUTINE_USER" Association="Self.FK_ROUTINE_USER">
             <End Role="User" EntitySet="User" />
             <End Role="ROUTINE" EntitySet="ROUTINE" />
           </AssociationSet>
-          <AssociationSet Name="FK__ROUTINEST__Produ__5DCAEF64" Association="Self.FK__ROUTINEST__Produ__5DCAEF64">
+          <AssociationSet Name="FK_ROUTINESTEP_PRODUCT" Association="Self.FK_ROUTINESTEP_PRODUCT">
             <End Role="PRODUCT" EntitySet="PRODUCT" />
             <End Role="ROUTINESTEP" EntitySet="ROUTINESTEP" />
           </AssociationSet>
-          <AssociationSet Name="FK__ROUTINEST__Routi__5CD6CB2B" Association="Self.FK__ROUTINEST__Routi__5CD6CB2B">
+          <AssociationSet Name="FK_ROUTINESTEP_ROUTINE" Association="Self.FK_ROUTINESTEP_ROUTINE">
             <End Role="ROUTINE" EntitySet="ROUTINE" />
             <End Role="ROUTINESTEP" EntitySet="ROUTINESTEP" />
           </AssociationSet>
-          <AssociationSet Name="FK__SUNSCREEN__Produ__3E52440B" Association="Self.FK__SUNSCREEN__Produ__3E52440B">
-            <End Role="PRODUCT" EntitySet="PRODUCT" />
-            <End Role="SUNSCREEN" EntitySet="SUNSCREEN" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="skincare_companionEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CLEANSERs" EntityType="Model.CLEANSER" />
-          <EntitySet Name="INGREDIENTs" EntityType="Model.INGREDIENT" />
-          <EntitySet Name="MOISTURIZERs" EntityType="Model.MOISTURIZER" />
-          <EntitySet Name="ROUTINEs" EntityType="Model.ROUTINE" />
-          <EntitySet Name="SUNSCREENs" EntityType="Model.SUNSCREEN" />
-          <EntitySet Name="Users" EntityType="Model.User" />
-          <AssociationSet Name="FK__ROUTINE__UserID__59063A47" Association="Model.FK__ROUTINE__UserID__59063A47">
-            <End Role="User" EntitySet="Users" />
-            <End Role="ROUTINE" EntitySet="ROUTINEs" />
-          </AssociationSet>
-          <EntitySet Name="OWNERSHIPs" EntityType="Model.OWNERSHIP" />
-          <EntitySet Name="PROGRESSRECORDs" EntityType="Model.PROGRESSRECORD" />
-          <AssociationSet Name="FK__OWNERSHIP__UserI__5070F446" Association="Model.FK__OWNERSHIP__UserI__5070F446">
-            <End Role="User" EntitySet="Users" />
-            <End Role="OWNERSHIP" EntitySet="OWNERSHIPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PROGRESSR__UserI__5535A963" Association="Model.FK__PROGRESSR__UserI__5535A963">
-            <End Role="User" EntitySet="Users" />
-            <End Role="PROGRESSRECORD" EntitySet="PROGRESSRECORDs" />
-          </AssociationSet>
-          <EntitySet Name="ROUTINESTEPs" EntityType="Model.ROUTINESTEP" />
-          <AssociationSet Name="FK__ROUTINEST__Routi__5CD6CB2B" Association="Model.FK__ROUTINEST__Routi__5CD6CB2B">
-            <End Role="ROUTINE" EntitySet="ROUTINEs" />
-            <End Role="ROUTINESTEP" EntitySet="ROUTINESTEPs" />
-          </AssociationSet>
-          <EntitySet Name="PRODUCTs" EntityType="Model.PRODUCT" />
-          <AssociationSet Name="FK__CLEANSER__Produc__440B1D61" Association="Model.FK__CLEANSER__Produc__440B1D61">
-            <End Role="PRODUCT" EntitySet="PRODUCTs" />
-            <End Role="CLEANSER" EntitySet="CLEANSERs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MOISTURIZ__Produ__412EB0B6" Association="Model.FK__MOISTURIZ__Produ__412EB0B6">
-            <End Role="PRODUCT" EntitySet="PRODUCTs" />
-            <End Role="MOISTURIZER" EntitySet="MOISTURIZERs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OWNERSHIP__Produ__5165187F" Association="Model.FK__OWNERSHIP__Produ__5165187F">
-            <End Role="PRODUCT" EntitySet="PRODUCTs" />
-            <End Role="OWNERSHIP" EntitySet="OWNERSHIPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ROUTINEST__Produ__5DCAEF64" Association="Model.FK__ROUTINEST__Produ__5DCAEF64">
-            <End Role="PRODUCT" EntitySet="PRODUCTs" />
-            <End Role="ROUTINESTEP" EntitySet="ROUTINESTEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SUNSCREEN__Produ__3E52440B" Association="Model.FK__SUNSCREEN__Produ__3E52440B">
-            <End Role="PRODUCT" EntitySet="PRODUCTs" />
-            <End Role="SUNSCREEN" EntitySet="SUNSCREENs" />
-          </AssociationSet>
-          <AssociationSet Name="PRODUCTINGREDIENT" Association="Model.PRODUCTINGREDIENT">
-            <End Role="INGREDIENT" EntitySet="INGREDIENTs" />
-            <End Role="PRODUCT" EntitySet="PRODUCTs" />
-          </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="CLEANSER">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="pHLevel" Type="Decimal" Precision="3" Scale="1" />
-          <Property Name="Form" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PRODUCT" Relationship="Model.FK__CLEANSER__Produc__440B1D61" FromRole="CLEANSER" ToRole="PRODUCT" />
-        </EntityType>
         <EntityType Name="INGREDIENT">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="IngredientID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="IngredientName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IngredientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IngredientName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsSensitive" Type="Boolean" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="PRODUCTs" Relationship="Model.PRODUCTINGREDIENT" FromRole="INGREDIENT" ToRole="PRODUCT" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.PRODUCTINGREDIENT" FromRole="INGREDIENT" ToRole="PRODUCT" />
         </EntityType>
-        <EntityType Name="MOISTURIZER">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Texture" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="IsNightCream" Type="Boolean" />
-          <NavigationProperty Name="PRODUCT" Relationship="Model.FK__MOISTURIZ__Produ__412EB0B6" FromRole="MOISTURIZER" ToRole="PRODUCT" />
-        </EntityType>
-        <EntityType Name="ROUTINE">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="RoutineName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RoutineType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Model.FK__ROUTINE__UserID__59063A47" FromRole="ROUTINE" ToRole="User" />
-          <NavigationProperty Name="ROUTINESTEPs" Relationship="Model.FK__ROUTINEST__Routi__5CD6CB2B" FromRole="ROUTINE" ToRole="ROUTINESTEP" />
-        </EntityType>
-        <EntityType Name="SUNSCREEN">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="SPFValue" Type="Int32" />
-          <Property Name="PAProtection" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PRODUCT" Relationship="Model.FK__SUNSCREEN__Produ__3E52440B" FromRole="SUNSCREEN" ToRole="PRODUCT" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="SkinType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SkinGoals" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="Allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ROUTINEs" Relationship="Model.FK__ROUTINE__UserID__59063A47" FromRole="User" ToRole="ROUTINE" />
-          <NavigationProperty Name="OWNERSHIPs" Relationship="Model.FK__OWNERSHIP__UserI__5070F446" FromRole="User" ToRole="OWNERSHIP" />
-          <NavigationProperty Name="PROGRESSRECORDs" Relationship="Model.FK__PROGRESSR__UserI__5535A963" FromRole="User" ToRole="PROGRESSRECORD" />
-        </EntityType>
-        <Association Name="FK__ROUTINE__UserID__59063A47">
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <End Type="Model.ROUTINE" Role="ROUTINE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="ROUTINE">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="OWNERSHIP">
           <Key>
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="ProductID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="ExpiryDate" Type="DateTime" Precision="0" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Model.FK__OWNERSHIP__UserI__5070F446" FromRole="OWNERSHIP" ToRole="User" />
-          <NavigationProperty Name="PRODUCT" Relationship="Model.FK__OWNERSHIP__Produ__5165187F" FromRole="OWNERSHIP" ToRole="PRODUCT" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_OWNERSHIP_PRODUCT" FromRole="OWNERSHIP" ToRole="PRODUCT" />
+          <NavigationProperty Name="User" Relationship="Self.FK_OWNERSHIP_USER" FromRole="OWNERSHIP" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Brand" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="OWNERSHIPs" Relationship="Self.FK_OWNERSHIP_PRODUCT" FromRole="PRODUCT" ToRole="OWNERSHIP" />
+          <NavigationProperty Name="ROUTINESTEPs" Relationship="Self.FK_ROUTINESTEP_PRODUCT" FromRole="PRODUCT" ToRole="ROUTINESTEP" />
+          <NavigationProperty Name="INGREDIENTs" Relationship="Self.PRODUCTINGREDIENT" FromRole="PRODUCT" ToRole="INGREDIENT" />
         </EntityType>
         <EntityType Name="PROGRESSRECORD">
           <Key>
             <PropertyRef Name="LogID" />
           </Key>
-          <Property Name="LogID" Type="Int32" Nullable="false" />
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SkinRating" Type="Int32" />
           <Property Name="Notes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="ImageURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Model.FK__PROGRESSR__UserI__5535A963" FromRole="PROGRESSRECORD" ToRole="User" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PROGRESSRECORD_USER" FromRole="PROGRESSRECORD" ToRole="User" />
         </EntityType>
-        <Association Name="FK__OWNERSHIP__UserI__5070F446">
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <End Type="Model.OWNERSHIP" Role="OWNERSHIP" Multiplicity="*" />
+        <EntityType Name="ROUTINE">
+          <Key>
+            <PropertyRef Name="RoutineID" />
+          </Key>
+          <Property Name="RoutineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RoutineName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoutineType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ROUTINE_USER" FromRole="ROUTINE" ToRole="User" />
+          <NavigationProperty Name="ROUTINESTEPs" Relationship="Self.FK_ROUTINESTEP_ROUTINE" FromRole="ROUTINE" ToRole="ROUTINESTEP" />
+        </EntityType>
+        <EntityType Name="ROUTINESTEP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoutineID" Type="Int32" Nullable="false" />
+          <Property Name="StepOrder" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="LastModified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_ROUTINESTEP_PRODUCT" FromRole="ROUTINESTEP" ToRole="PRODUCT" />
+          <NavigationProperty Name="ROUTINE" Relationship="Self.FK_ROUTINESTEP_ROUTINE" FromRole="ROUTINESTEP" ToRole="ROUTINE" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SkinType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SkinGoals" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="OWNERSHIPs" Relationship="Self.FK_OWNERSHIP_USER" FromRole="User" ToRole="OWNERSHIP" />
+          <NavigationProperty Name="PROGRESSRECORDs" Relationship="Self.FK_PROGRESSRECORD_USER" FromRole="User" ToRole="PROGRESSRECORD" />
+          <NavigationProperty Name="ROUTINEs" Relationship="Self.FK_ROUTINE_USER" FromRole="User" ToRole="ROUTINE" />
+        </EntityType>
+        <EntityType Name="v_AllergyWarnings">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="IngredientName" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IngredientName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="v_ExpiringInventory">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ProductName" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="v_RoutineDetail">
+          <Key>
+            <PropertyRef Name="RoutineID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="StepOrder" />
+            <PropertyRef Name="ProductID" />
+            <PropertyRef Name="ProductName" />
+          </Key>
+          <Property Name="RoutineID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RoutineName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="StepOrder" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OWNERSHIP_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+          <End Role="OWNERSHIP" Type="Self.OWNERSHIP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="OWNERSHIP">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OWNERSHIP_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="OWNERSHIP" Type="Self.OWNERSHIP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserID" />
@@ -476,9 +462,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PROGRESSR__UserI__5535A963">
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <End Type="Model.PROGRESSRECORD" Role="PROGRESSRECORD" Multiplicity="*" />
+        <Association Name="FK_ROUTINESTEP_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+          <End Role="ROUTINESTEP" Type="Self.ROUTINESTEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ROUTINESTEP">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROGRESSRECORD_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PROGRESSRECORD" Type="Self.PROGRESSRECORD" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserID" />
@@ -488,237 +486,207 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ROUTINESTEP">
-          <Key>
-            <PropertyRef Name="RoutineID" />
-            <PropertyRef Name="StepOrder" />
-          </Key>
-          <Property Name="RoutineID" Type="Int32" Nullable="false" />
-          <Property Name="StepOrder" Type="Int32" Nullable="false" />
-          <Property Name="ProductID" Type="Int32" Nullable="false" />
-          <Property Name="Notes" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ROUTINE" Relationship="Model.FK__ROUTINEST__Routi__5CD6CB2B" FromRole="ROUTINESTEP" ToRole="ROUTINE" />
-          <NavigationProperty Name="PRODUCT" Relationship="Model.FK__ROUTINEST__Produ__5DCAEF64" FromRole="ROUTINESTEP" ToRole="PRODUCT" />
-        </EntityType>
-        <Association Name="FK__ROUTINEST__Routi__5CD6CB2B">
-          <End Type="Model.ROUTINE" Role="ROUTINE" Multiplicity="1" />
-          <End Type="Model.ROUTINESTEP" Role="ROUTINESTEP" Multiplicity="*" />
+        <Association Name="FK_ROUTINE_USER">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ROUTINE" Type="Self.ROUTINE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ROUTINE">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROUTINESTEP_ROUTINE">
+          <End Role="ROUTINE" Type="Self.ROUTINE" Multiplicity="1" />
+          <End Role="ROUTINESTEP" Type="Self.ROUTINESTEP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ROUTINE">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="RoutineID" />
             </Principal>
             <Dependent Role="ROUTINESTEP">
               <PropertyRef Name="RoutineID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PRODUCT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Brand" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LastModified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CLEANSER" Relationship="Model.FK__CLEANSER__Produc__440B1D61" FromRole="PRODUCT" ToRole="CLEANSER" />
-          <NavigationProperty Name="MOISTURIZER" Relationship="Model.FK__MOISTURIZ__Produ__412EB0B6" FromRole="PRODUCT" ToRole="MOISTURIZER" />
-          <NavigationProperty Name="OWNERSHIPs" Relationship="Model.FK__OWNERSHIP__Produ__5165187F" FromRole="PRODUCT" ToRole="OWNERSHIP" />
-          <NavigationProperty Name="ROUTINESTEPs" Relationship="Model.FK__ROUTINEST__Produ__5DCAEF64" FromRole="PRODUCT" ToRole="ROUTINESTEP" />
-          <NavigationProperty Name="SUNSCREEN" Relationship="Model.FK__SUNSCREEN__Produ__3E52440B" FromRole="PRODUCT" ToRole="SUNSCREEN" />
-          <NavigationProperty Name="INGREDIENTs" Relationship="Model.PRODUCTINGREDIENT" FromRole="PRODUCT" ToRole="INGREDIENT" />
-        </EntityType>
-        <Association Name="FK__CLEANSER__Produc__440B1D61">
-          <End Type="Model.PRODUCT" Role="PRODUCT" Multiplicity="1" />
-          <End Type="Model.CLEANSER" Role="CLEANSER" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CLEANSER">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MOISTURIZ__Produ__412EB0B6">
-          <End Type="Model.PRODUCT" Role="PRODUCT" Multiplicity="1" />
-          <End Type="Model.MOISTURIZER" Role="MOISTURIZER" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MOISTURIZER">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OWNERSHIP__Produ__5165187F">
-          <End Type="Model.PRODUCT" Role="PRODUCT" Multiplicity="1" />
-          <End Type="Model.OWNERSHIP" Role="OWNERSHIP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OWNERSHIP">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ROUTINEST__Produ__5DCAEF64">
-          <End Type="Model.PRODUCT" Role="PRODUCT" Multiplicity="1" />
-          <End Type="Model.ROUTINESTEP" Role="ROUTINESTEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ROUTINESTEP">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SUNSCREEN__Produ__3E52440B">
-          <End Type="Model.PRODUCT" Role="PRODUCT" Multiplicity="1" />
-          <End Type="Model.SUNSCREEN" Role="SUNSCREEN" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SUNSCREEN">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="PRODUCTINGREDIENT">
-          <End Type="Model.INGREDIENT" Role="INGREDIENT" Multiplicity="*" />
-          <End Type="Model.PRODUCT" Role="PRODUCT" Multiplicity="*" />
+          <End Role="INGREDIENT" Type="Self.INGREDIENT" Multiplicity="*" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
         </Association>
-        </Schema>
+        <EntityContainer Name="skincare_companionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="INGREDIENTs" EntityType="Self.INGREDIENT" />
+          <EntitySet Name="OWNERSHIPs" EntityType="Self.OWNERSHIP" />
+          <EntitySet Name="PRODUCTs" EntityType="Self.PRODUCT" />
+          <EntitySet Name="PROGRESSRECORDs" EntityType="Self.PROGRESSRECORD" />
+          <EntitySet Name="ROUTINEs" EntityType="Self.ROUTINE" />
+          <EntitySet Name="ROUTINESTEPs" EntityType="Self.ROUTINESTEP" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="v_AllergyWarnings" EntityType="Self.v_AllergyWarnings" />
+          <EntitySet Name="v_ExpiringInventory" EntityType="Self.v_ExpiringInventory" />
+          <EntitySet Name="v_RoutineDetail" EntityType="Self.v_RoutineDetail" />
+          <AssociationSet Name="FK_OWNERSHIP_PRODUCT" Association="Self.FK_OWNERSHIP_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="OWNERSHIP" EntitySet="OWNERSHIPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OWNERSHIP_USER" Association="Self.FK_OWNERSHIP_USER">
+            <End Role="User" EntitySet="Users" />
+            <End Role="OWNERSHIP" EntitySet="OWNERSHIPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROUTINESTEP_PRODUCT" Association="Self.FK_ROUTINESTEP_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="ROUTINESTEP" EntitySet="ROUTINESTEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROGRESSRECORD_USER" Association="Self.FK_PROGRESSRECORD_USER">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PROGRESSRECORD" EntitySet="PROGRESSRECORDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROUTINE_USER" Association="Self.FK_ROUTINE_USER">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ROUTINE" EntitySet="ROUTINEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROUTINESTEP_ROUTINE" Association="Self.FK_ROUTINESTEP_ROUTINE">
+            <End Role="ROUTINE" EntitySet="ROUTINEs" />
+            <End Role="ROUTINESTEP" EntitySet="ROUTINESTEPs" />
+          </AssociationSet>
+          <AssociationSet Name="PRODUCTINGREDIENT" Association="Self.PRODUCTINGREDIENT">
+            <End Role="INGREDIENT" EntitySet="INGREDIENTs" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="skincare_companionEntities1">
-          <EntitySetMapping Name="CLEANSERs">
-            <EntityTypeMapping TypeName="Model.CLEANSER">
-              <MappingFragment StoreEntitySet="CLEANSER">
-                <ScalarProperty Name="Form" ColumnName="Form" />
-                <ScalarProperty Name="pHLevel" ColumnName="pHLevel" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="skincare_companionEntities">
           <EntitySetMapping Name="INGREDIENTs">
             <EntityTypeMapping TypeName="Model.INGREDIENT">
               <MappingFragment StoreEntitySet="INGREDIENT">
-                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IsSensitive" ColumnName="IsSensitive" />
+                <ScalarProperty Name="IngredientID" ColumnName="IngredientID" />
                 <ScalarProperty Name="IngredientName" ColumnName="IngredientName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MOISTURIZERs">
-            <EntityTypeMapping TypeName="Model.MOISTURIZER">
-              <MappingFragment StoreEntitySet="MOISTURIZER">
-                <ScalarProperty Name="IsNightCream" ColumnName="IsNightCream" />
-                <ScalarProperty Name="Texture" ColumnName="Texture" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ROUTINEs">
-            <EntityTypeMapping TypeName="Model.ROUTINE">
-              <MappingFragment StoreEntitySet="ROUTINE">
+                <ScalarProperty Name="IsSensitive" ColumnName="IsSensitive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="RoutineType" ColumnName="RoutineType" />
-                <ScalarProperty Name="RoutineName" ColumnName="RoutineName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SUNSCREENs">
-            <EntityTypeMapping TypeName="Model.SUNSCREEN">
-              <MappingFragment StoreEntitySet="SUNSCREEN">
-                <ScalarProperty Name="PAProtection" ColumnName="PAProtection" />
-                <ScalarProperty Name="SPFValue" ColumnName="SPFValue" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="Model.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="Allergies" ColumnName="Allergies" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="SkinGoals" ColumnName="SkinGoals" />
-                <ScalarProperty Name="SkinType" ColumnName="SkinType" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OWNERSHIPs">
             <EntityTypeMapping TypeName="Model.OWNERSHIP">
               <MappingFragment StoreEntitySet="OWNERSHIP">
-                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PROGRESSRECORDs">
-            <EntityTypeMapping TypeName="Model.PROGRESSRECORD">
-              <MappingFragment StoreEntitySet="PROGRESSRECORD">
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
                 <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="SkinRating" ColumnName="SkinRating" />
-                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LogID" ColumnName="LogID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ROUTINESTEPs">
-            <EntityTypeMapping TypeName="Model.ROUTINESTEP">
-              <MappingFragment StoreEntitySet="ROUTINESTEP">
-                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="StepOrder" ColumnName="StepOrder" />
-                <ScalarProperty Name="RoutineID" ColumnName="RoutineID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PRODUCTs">
             <EntityTypeMapping TypeName="Model.PRODUCT">
               <MappingFragment StoreEntitySet="PRODUCT">
-                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROGRESSRECORDs">
+            <EntityTypeMapping TypeName="Model.PROGRESSRECORD">
+              <MappingFragment StoreEntitySet="PROGRESSRECORD">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+                <ScalarProperty Name="SkinRating" ColumnName="SkinRating" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROUTINEs">
+            <EntityTypeMapping TypeName="Model.ROUTINE">
+              <MappingFragment StoreEntitySet="ROUTINE">
+                <ScalarProperty Name="RoutineID" ColumnName="RoutineID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoutineName" ColumnName="RoutineName" />
+                <ScalarProperty Name="RoutineType" ColumnName="RoutineType" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROUTINESTEPs">
+            <EntityTypeMapping TypeName="Model.ROUTINESTEP">
+              <MappingFragment StoreEntitySet="ROUTINESTEP">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoutineID" ColumnName="RoutineID" />
+                <ScalarProperty Name="StepOrder" ColumnName="StepOrder" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SkinType" ColumnName="SkinType" />
+                <ScalarProperty Name="SkinGoals" ColumnName="SkinGoals" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Allergies" ColumnName="Allergies" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_AllergyWarnings">
+            <EntityTypeMapping TypeName="Model.v_AllergyWarnings">
+              <MappingFragment StoreEntitySet="v_AllergyWarnings">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Allergies" ColumnName="Allergies" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="IngredientName" ColumnName="IngredientName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_ExpiringInventory">
+            <EntityTypeMapping TypeName="Model.v_ExpiringInventory">
+              <MappingFragment StoreEntitySet="v_ExpiringInventory">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_RoutineDetail">
+            <EntityTypeMapping TypeName="Model.v_RoutineDetail">
+              <MappingFragment StoreEntitySet="v_RoutineDetail">
+                <ScalarProperty Name="RoutineID" ColumnName="RoutineID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoutineName" ColumnName="RoutineName" />
+                <ScalarProperty Name="StepOrder" ColumnName="StepOrder" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="PRODUCTINGREDIENT" TypeName="Model.PRODUCTINGREDIENT" StoreEntitySet="PRODUCTINGREDIENT">
-            <EndProperty Name="PRODUCT">
-              <ScalarProperty Name="ID" ColumnName="ProductID" />
-            </EndProperty>
             <EndProperty Name="INGREDIENT">
-              <ScalarProperty Name="ID" ColumnName="IngredientID" />
+              <ScalarProperty Name="IngredientID" ColumnName="IngredientID" />
+            </EndProperty>
+            <EndProperty Name="PRODUCT">
+              <ScalarProperty Name="ProductID" ColumnName="ProductID" />
             </EndProperty>
           </AssociationSetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

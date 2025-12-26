@@ -12,12 +12,12 @@ namespace DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class CLEANSER
+    public partial class v_AllergyWarnings
     {
-        public int ID { get; set; }
-        public Nullable<decimal> pHLevel { get; set; }
-        public string Form { get; set; }
-    
-        public virtual PRODUCT PRODUCT { get; set; }
+        public int UserID { get; set; }
+        public string Allergies { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public string IngredientName { get; set; }
     }
 }

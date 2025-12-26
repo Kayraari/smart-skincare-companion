@@ -17,9 +17,9 @@ namespace DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.ROUTINEs = new HashSet<ROUTINE>();
             this.OWNERSHIPs = new HashSet<OWNERSHIP>();
             this.PROGRESSRECORDs = new HashSet<PROGRESSRECORD>();
+            this.ROUTINEs = new HashSet<ROUTINE>();
         }
     
         public int UserID { get; set; }
@@ -29,13 +29,13 @@ namespace DataAccess
         public string SkinGoals { get; set; }
         public Nullable<int> Age { get; set; }
         public string Allergies { get; set; }
-        public Nullable<System.DateTime> LastModified { get; set; }
+        public System.DateTime LastModified { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ROUTINE> ROUTINEs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OWNERSHIP> OWNERSHIPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROGRESSRECORD> PROGRESSRECORDs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ROUTINE> ROUTINEs { get; set; }
     }
 }

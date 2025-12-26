@@ -12,12 +12,12 @@ namespace DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class MOISTURIZER
+    public partial class v_ExpiringInventory
     {
-        public int ID { get; set; }
-        public string Texture { get; set; }
-        public Nullable<bool> IsNightCream { get; set; }
-    
-        public virtual PRODUCT PRODUCT { get; set; }
+        public int UserID { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<System.DateTime> ExpiryDate { get; set; }
     }
 }

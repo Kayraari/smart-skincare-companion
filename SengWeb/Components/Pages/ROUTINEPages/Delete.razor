@@ -1,0 +1,67 @@
+﻿@page "/routines/delete"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>ROUTINE</h2>
+    <hr />
+    @if (routine is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">UserID</dt>
+            <dd class="col-sm-10">@routine.UserID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">RoutineName</dt>
+            <dd class="col-sm-10">@routine.RoutineName</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">RoutineType</dt>
+            <dd class="col-sm-10">@routine.RoutineType</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">LastModified</dt>
+            <dd class="col-sm-10">@routine.LastModified</dd>
+        </dl>
+        <EditForm method="post" Model="routine" OnValidSubmit="DeleteROUTINE" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(routine is null)">Delete</button> |
+            <a href="/routines">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private ROUTINE? routine;
+
+    [SupplyParameterFromQuery]
+    private int RoutineID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        routine = await context.ROUTINE.FirstOrDefaultAsync(m => m.RoutineID == RoutineID);
+
+        if (routine is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteROUTINE()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.ROUTINE.Remove(routine!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/routines");
+    }
+}

@@ -22,9 +22,9 @@
     <PropertyColumn Property="product => product.LastModified" />
 
     <TemplateColumn Context="product">
-        <a href="@($"products/edit?id={product.ID}")">Edit</a> |
-        <a href="@($"products/details?id={product.ID}")">Details</a> |
-        <a href="@($"products/delete?id={product.ID}")">Delete</a>
+        <a href="@($"products/edit?productid={product.ProductID}")">Edit</a> |
+        <a href="@($"products/details?productid={product.ProductID}")">Details</a> |
+        <a href="@($"products/delete?productid={product.ProductID}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>
 

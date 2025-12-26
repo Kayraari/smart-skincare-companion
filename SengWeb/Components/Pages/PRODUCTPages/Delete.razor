@@ -48,12 +48,12 @@
     private PRODUCT? product;
 
     [SupplyParameterFromQuery]
-    private int ID { get; set; }
+    private int ProductID { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        product = await context.PRODUCT.FirstOrDefaultAsync(m => m.ID == ID);
+        product = await context.PRODUCT.FirstOrDefaultAsync(m => m.ProductID == ProductID);
 
         if (product is null)
         {

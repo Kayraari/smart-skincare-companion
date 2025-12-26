@@ -1,0 +1,59 @@
+﻿@page "/routines/create"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>ROUTINE</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="ROUTINE" OnValidSubmit="AddROUTINE" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="userid" class="form-label">UserID:</label> 
+                <InputNumber id="userid" @bind-Value="ROUTINE.UserID" class="form-control" /> 
+                <ValidationMessage For="() => ROUTINE.UserID" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="routinename" class="form-label">RoutineName:</label> 
+                <InputText id="routinename" @bind-Value="ROUTINE.RoutineName" class="form-control" /> 
+                <ValidationMessage For="() => ROUTINE.RoutineName" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="routinetype" class="form-label">RoutineType:</label> 
+                <InputText id="routinetype" @bind-Value="ROUTINE.RoutineType" class="form-control" /> 
+                <ValidationMessage For="() => ROUTINE.RoutineType" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="lastmodified" class="form-label">LastModified:</label> 
+                <InputDate id="lastmodified" @bind-Value="ROUTINE.LastModified" class="form-control" /> 
+                <ValidationMessage For="() => ROUTINE.LastModified" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/routines">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private ROUTINE ROUTINE { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddROUTINE()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.ROUTINE.Add(ROUTINE);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/routines");
+    }
+}

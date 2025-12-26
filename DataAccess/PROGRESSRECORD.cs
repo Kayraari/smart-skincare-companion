@@ -19,8 +19,7 @@ namespace DataAccess
         public System.DateTime LogDate { get; set; }
         public Nullable<int> SkinRating { get; set; }
         public string Notes { get; set; }
-        public string ImageURL { get; set; }
-        public Nullable<System.DateTime> LastModified { get; set; }
+        public System.DateTime LastModified { get; set; }
     
         public virtual User User { get; set; }
     }

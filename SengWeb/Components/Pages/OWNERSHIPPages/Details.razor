@@ -1,0 +1,52 @@
+﻿@page "/ownerships/details"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>OWNERSHIP</h2>
+    <hr />
+    @if (ownership is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">ID</dt>
+            <dd class="col-sm-10">@ownership.ID</dd>
+            <dt class="col-sm-2">Quantity</dt>
+            <dd class="col-sm-10">@ownership.Quantity</dd>
+            <dt class="col-sm-2">ExpiryDate</dt>
+            <dd class="col-sm-10">@ownership.ExpiryDate</dd>
+            <dt class="col-sm-2">LastModified</dt>
+            <dd class="col-sm-10">@ownership.LastModified</dd>
+        </dl>
+        <div>
+            <a href="@($"/ownerships/edit?userid={ownership.UserID}")">Edit</a> |
+            <a href="@($"/ownerships")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private OWNERSHIP? ownership;
+
+    [SupplyParameterFromQuery]
+    private int UserID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        ownership = await context.OWNERSHIP.FirstOrDefaultAsync(m => m.UserID == UserID);
+
+        if (ownership is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

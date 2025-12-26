@@ -1,0 +1,74 @@
+﻿@page "/users/create"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>User</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="User" OnValidSubmit="AddUser" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label> 
+                <InputText id="email" @bind-Value="User.Email" class="form-control" /> 
+                <ValidationMessage For="() => User.Email" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="passwordhash" class="form-label">PasswordHash:</label> 
+                <InputText id="passwordhash" @bind-Value="User.PasswordHash" class="form-control" /> 
+                <ValidationMessage For="() => User.PasswordHash" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="skintype" class="form-label">SkinType:</label> 
+                <InputText id="skintype" @bind-Value="User.SkinType" class="form-control" /> 
+                <ValidationMessage For="() => User.SkinType" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="skingoals" class="form-label">SkinGoals:</label> 
+                <InputText id="skingoals" @bind-Value="User.SkinGoals" class="form-control" /> 
+                <ValidationMessage For="() => User.SkinGoals" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="age" class="form-label">Age:</label> 
+                <InputNumber id="age" @bind-Value="User.Age" class="form-control" /> 
+                <ValidationMessage For="() => User.Age" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="allergies" class="form-label">Allergies:</label> 
+                <InputText id="allergies" @bind-Value="User.Allergies" class="form-control" /> 
+                <ValidationMessage For="() => User.Allergies" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="lastmodified" class="form-label">LastModified:</label> 
+                <InputDate id="lastmodified" @bind-Value="User.LastModified" class="form-control" /> 
+                <ValidationMessage For="() => User.LastModified" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/users">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private User User { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddUser()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.User.Add(User);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/users");
+    }
+}

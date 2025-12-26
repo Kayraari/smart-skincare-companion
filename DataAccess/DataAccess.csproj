@@ -50,9 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLEANSER.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="INGREDIENT.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -71,9 +68,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="MOISTURIZER.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="OWNERSHIP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -90,10 +84,16 @@
     <Compile Include="ROUTINESTEP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SUNSCREEN.cs">
+    <Compile Include="User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="User.cs">
+    <Compile Include="v_AllergyWarnings.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_ExpiringInventory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_RoutineDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
   </ItemGroup>

@@ -22,20 +22,17 @@ namespace DataAccess
             this.INGREDIENTs = new HashSet<INGREDIENT>();
         }
     
-        public int ID { get; set; }
+        public int ProductID { get; set; }
         public string ProductName { get; set; }
         public string Brand { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public Nullable<System.DateTime> LastModified { get; set; }
+        public System.DateTime LastModified { get; set; }
     
-        public virtual CLEANSER CLEANSER { get; set; }
-        public virtual MOISTURIZER MOISTURIZER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OWNERSHIP> OWNERSHIPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ROUTINESTEP> ROUTINESTEPs { get; set; }
-        public virtual SUNSCREEN SUNSCREEN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<INGREDIENT> INGREDIENTs { get; set; }
     }

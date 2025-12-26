@@ -57,10 +57,6 @@
     private async Task AddPRODUCT()
     {
         using var context = DbFactory.CreateDbContext();
-
-        Random rnd = new Random();
-        PRODUCT.ID = rnd.Next(100000, 999999);
-
         context.PRODUCT.Add(PRODUCT);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/products");

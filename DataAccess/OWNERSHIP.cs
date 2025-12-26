@@ -14,13 +14,14 @@ namespace DataAccess
     
     public partial class OWNERSHIP
     {
+        public int ID { get; set; }
         public int UserID { get; set; }
         public int ProductID { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<System.DateTime> ExpiryDate { get; set; }
-        public Nullable<System.DateTime> LastModified { get; set; }
+        public System.DateTime LastModified { get; set; }
     
-        public virtual User User { get; set; }
         public virtual PRODUCT PRODUCT { get; set; }
+        public virtual User User { get; set; }
     }
 }

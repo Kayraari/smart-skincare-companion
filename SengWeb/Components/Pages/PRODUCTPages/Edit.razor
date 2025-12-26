@@ -21,7 +21,7 @@ else
             <EditForm method="post" Model="PRODUCT" OnValidSubmit="UpdatePRODUCT" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
                 <ValidationSummary role="alert"/>
-                <input type="hidden" name="PRODUCT.ID" value="@PRODUCT.ID" />
+                <input type="hidden" name="PRODUCT.ProductID" value="@PRODUCT.ProductID" />
                 <div class="mb-3">
                     <label for="productname" class="form-label">ProductName:</label>
                     <InputText id="productname" @bind-Value="PRODUCT.ProductName" class="form-control" />
@@ -59,7 +59,7 @@ else
 
 @code {
     [SupplyParameterFromQuery]
-    private int ID { get; set; }
+    private int ProductID { get; set; }
 
     [SupplyParameterFromForm]
     private PRODUCT? PRODUCT { get; set; }
@@ -67,7 +67,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        PRODUCT ??= await context.PRODUCT.FirstOrDefaultAsync(m => m.ID == ID);
+        PRODUCT ??= await context.PRODUCT.FirstOrDefaultAsync(m => m.ProductID == ProductID);
 
         if (PRODUCT is null)
         {
@@ -88,7 +88,7 @@ else
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!PRODUCTExists(PRODUCT!.ID))
+            if (!PRODUCTExists(PRODUCT!.ProductID))
             {
                 NavigationManager.NavigateTo("notfound");
             }
@@ -101,9 +101,9 @@ else
         NavigationManager.NavigateTo("/products");
     }
 
-    private bool PRODUCTExists(int id)
+    private bool PRODUCTExists(int productid)
     {
         using var context = DbFactory.CreateDbContext();
-        return context.PRODUCT.Any(e => e.ID == id);
+        return context.PRODUCT.Any(e => e.ProductID == productid);
     }
 }

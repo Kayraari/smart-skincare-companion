@@ -1,0 +1,40 @@
+﻿@page "/routinesteps"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using DataAccess
+@using SengWeb.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="routinesteps/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.ROUTINESTEP">
+    <PropertyColumn Property="routinestep => routinestep.RoutineID" />
+    <PropertyColumn Property="routinestep => routinestep.StepOrder" />
+    <PropertyColumn Property="routinestep => routinestep.ProductID" />
+    <PropertyColumn Property="routinestep => routinestep.Notes" />
+    <PropertyColumn Property="routinestep => routinestep.LastModified" />
+
+    <TemplateColumn Context="routinestep">
+        <a href="@($"routinesteps/edit?id={routinestep.ID}")">Edit</a> |
+        <a href="@($"routinesteps/details?id={routinestep.ID}")">Details</a> |
+        <a href="@($"routinesteps/delete?id={routinestep.ID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private SengWebContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

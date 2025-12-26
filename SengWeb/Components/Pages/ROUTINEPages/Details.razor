@@ -1,0 +1,52 @@
+﻿@page "/routines/details"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>ROUTINE</h2>
+    <hr />
+    @if (routine is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">UserID</dt>
+            <dd class="col-sm-10">@routine.UserID</dd>
+            <dt class="col-sm-2">RoutineName</dt>
+            <dd class="col-sm-10">@routine.RoutineName</dd>
+            <dt class="col-sm-2">RoutineType</dt>
+            <dd class="col-sm-10">@routine.RoutineType</dd>
+            <dt class="col-sm-2">LastModified</dt>
+            <dd class="col-sm-10">@routine.LastModified</dd>
+        </dl>
+        <div>
+            <a href="@($"/routines/edit?routineid={routine.RoutineID}")">Edit</a> |
+            <a href="@($"/routines")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private ROUTINE? routine;
+
+    [SupplyParameterFromQuery]
+    private int RoutineID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        routine = await context.ROUTINE.FirstOrDefaultAsync(m => m.RoutineID == RoutineID);
+
+        if (routine is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

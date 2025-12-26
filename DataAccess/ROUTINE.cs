@@ -20,11 +20,11 @@ namespace DataAccess
             this.ROUTINESTEPs = new HashSet<ROUTINESTEP>();
         }
     
-        public int ID { get; set; }
+        public int RoutineID { get; set; }
         public int UserID { get; set; }
         public string RoutineName { get; set; }
         public string RoutineType { get; set; }
-        public Nullable<System.DateTime> LastModified { get; set; }
+        public System.DateTime LastModified { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

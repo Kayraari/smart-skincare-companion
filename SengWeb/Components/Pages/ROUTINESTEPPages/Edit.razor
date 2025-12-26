@@ -1,0 +1,109 @@
+﻿@page "/routinesteps/edit"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>ROUTINESTEP</h2>
+<hr />
+@if (ROUTINESTEP is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="ROUTINESTEP" OnValidSubmit="UpdateROUTINESTEP" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="ROUTINESTEP.ID" value="@ROUTINESTEP.ID" />
+                <div class="mb-3">
+                    <label for="routineid" class="form-label">RoutineID:</label>
+                    <InputNumber id="routineid" @bind-Value="ROUTINESTEP.RoutineID" class="form-control" />
+                    <ValidationMessage For="() => ROUTINESTEP.RoutineID" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="steporder" class="form-label">StepOrder:</label>
+                    <InputNumber id="steporder" @bind-Value="ROUTINESTEP.StepOrder" class="form-control" />
+                    <ValidationMessage For="() => ROUTINESTEP.StepOrder" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="productid" class="form-label">ProductID:</label>
+                    <InputNumber id="productid" @bind-Value="ROUTINESTEP.ProductID" class="form-control" />
+                    <ValidationMessage For="() => ROUTINESTEP.ProductID" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Notes:</label>
+                    <InputText id="notes" @bind-Value="ROUTINESTEP.Notes" class="form-control" />
+                    <ValidationMessage For="() => ROUTINESTEP.Notes" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="lastmodified" class="form-label">LastModified:</label>
+                    <InputDate id="lastmodified" @bind-Value="ROUTINESTEP.LastModified" class="form-control" />
+                    <ValidationMessage For="() => ROUTINESTEP.LastModified" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/routinesteps">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int ID { get; set; }
+
+    [SupplyParameterFromForm]
+    private ROUTINESTEP? ROUTINESTEP { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        ROUTINESTEP ??= await context.ROUTINESTEP.FirstOrDefaultAsync(m => m.ID == ID);
+
+        if (ROUTINESTEP is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateROUTINESTEP()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(ROUTINESTEP!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ROUTINESTEPExists(ROUTINESTEP!.ID))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/routinesteps");
+    }
+
+    private bool ROUTINESTEPExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.ROUTINESTEP.Any(e => e.ID == id);
+    }
+}

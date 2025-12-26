@@ -12,12 +12,13 @@ namespace DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class SUNSCREEN
+    public partial class v_RoutineDetail
     {
-        public int ID { get; set; }
-        public Nullable<int> SPFValue { get; set; }
-        public string PAProtection { get; set; }
-    
-        public virtual PRODUCT PRODUCT { get; set; }
+        public int RoutineID { get; set; }
+        public int UserID { get; set; }
+        public string RoutineName { get; set; }
+        public int StepOrder { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
     }
 }

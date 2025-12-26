@@ -1,0 +1,39 @@
+﻿@page "/ownerships"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using DataAccess
+@using SengWeb.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="ownerships/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.OWNERSHIP">
+    <PropertyColumn Property="ownership => ownership.ID" />
+    <PropertyColumn Property="ownership => ownership.Quantity" />
+    <PropertyColumn Property="ownership => ownership.ExpiryDate" />
+    <PropertyColumn Property="ownership => ownership.LastModified" />
+
+    <TemplateColumn Context="ownership">
+        <a href="@($"ownerships/edit?userid={ownership.UserID}")">Edit</a> |
+        <a href="@($"ownerships/details?userid={ownership.UserID}")">Details</a> |
+        <a href="@($"ownerships/delete?userid={ownership.UserID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private SengWebContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

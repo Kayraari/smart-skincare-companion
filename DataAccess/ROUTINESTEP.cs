@@ -14,13 +14,14 @@ namespace DataAccess
     
     public partial class ROUTINESTEP
     {
+        public int ID { get; set; }
         public int RoutineID { get; set; }
         public int StepOrder { get; set; }
         public int ProductID { get; set; }
         public string Notes { get; set; }
         public Nullable<System.DateTime> LastModified { get; set; }
     
-        public virtual ROUTINE ROUTINE { get; set; }
         public virtual PRODUCT PRODUCT { get; set; }
+        public virtual ROUTINE ROUTINE { get; set; }
     }
 }

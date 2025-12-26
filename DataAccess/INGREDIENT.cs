@@ -20,11 +20,11 @@ namespace DataAccess
             this.PRODUCTs = new HashSet<PRODUCT>();
         }
     
-        public int ID { get; set; }
+        public int IngredientID { get; set; }
         public string IngredientName { get; set; }
         public Nullable<bool> IsSensitive { get; set; }
         public string Description { get; set; }
-        public Nullable<System.DateTime> LastModified { get; set; }
+        public System.DateTime LastModified { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCT> PRODUCTs { get; set; }

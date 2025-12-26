@@ -13,10 +13,10 @@ namespace DataAccess
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class skincare_companionEntities1 : DbContext
+    public partial class skincare_companionEntities : DbContext
     {
-        public skincare_companionEntities1()
-            : base("name=skincare_companionEntities1")
+        public skincare_companionEntities()
+            : base("name=skincare_companionEntities")
         {
         }
     
@@ -25,15 +25,15 @@ namespace DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CLEANSER> CLEANSERs { get; set; }
         public virtual DbSet<INGREDIENT> INGREDIENTs { get; set; }
-        public virtual DbSet<MOISTURIZER> MOISTURIZERs { get; set; }
-        public virtual DbSet<ROUTINE> ROUTINEs { get; set; }
-        public virtual DbSet<SUNSCREEN> SUNSCREENs { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<OWNERSHIP> OWNERSHIPs { get; set; }
-        public virtual DbSet<PROGRESSRECORD> PROGRESSRECORDs { get; set; }
-        public virtual DbSet<ROUTINESTEP> ROUTINESTEPs { get; set; }
         public virtual DbSet<PRODUCT> PRODUCTs { get; set; }
+        public virtual DbSet<PROGRESSRECORD> PROGRESSRECORDs { get; set; }
+        public virtual DbSet<ROUTINE> ROUTINEs { get; set; }
+        public virtual DbSet<ROUTINESTEP> ROUTINESTEPs { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<v_AllergyWarnings> v_AllergyWarnings { get; set; }
+        public virtual DbSet<v_ExpiringInventory> v_ExpiringInventory { get; set; }
+        public virtual DbSet<v_RoutineDetail> v_RoutineDetail { get; set; }
     }
 }

@@ -1,0 +1,59 @@
+﻿@page "/ownerships/create"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>OWNERSHIP</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="OWNERSHIP" OnValidSubmit="AddOWNERSHIP" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="id" class="form-label">ID:</label> 
+                <InputNumber id="id" @bind-Value="OWNERSHIP.ID" class="form-control" /> 
+                <ValidationMessage For="() => OWNERSHIP.ID" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity:</label> 
+                <InputNumber id="quantity" @bind-Value="OWNERSHIP.Quantity" class="form-control" /> 
+                <ValidationMessage For="() => OWNERSHIP.Quantity" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="expirydate" class="form-label">ExpiryDate:</label> 
+                <InputDate id="expirydate" @bind-Value="OWNERSHIP.ExpiryDate" class="form-control" /> 
+                <ValidationMessage For="() => OWNERSHIP.ExpiryDate" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="lastmodified" class="form-label">LastModified:</label> 
+                <InputDate id="lastmodified" @bind-Value="OWNERSHIP.LastModified" class="form-control" /> 
+                <ValidationMessage For="() => OWNERSHIP.LastModified" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/ownerships">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private OWNERSHIP OWNERSHIP { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddOWNERSHIP()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.OWNERSHIP.Add(OWNERSHIP);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/ownerships");
+    }
+}

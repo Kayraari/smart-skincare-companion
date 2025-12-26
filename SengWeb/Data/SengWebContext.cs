@@ -8,30 +8,52 @@ using DataAccess;
 namespace SengWeb.Data
 {
    
-    public class SengWebContext : DbContext
+ class SengWebContext : DbContext
     {
-        public SengWebContext (DbContextOptions<SengWebContext> options)
+        public SengWebContext(DbContextOptions<SengWebContext> options)
             : base(options)
         {
 
         }
-       
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<PRODUCT>().HasOne(p => p.SUNSCREEN).WithOne(m => m.PRODUCT).HasForeignKey<SUNSCREEN>(m => m.ID).IsRequired();
-            modelBuilder.Entity<PRODUCT>().HasOne(p => p.CLEANSER).WithOne(m => m.PRODUCT).HasForeignKey<CLEANSER>(m => m.ID).IsRequired();
-            modelBuilder.Entity<PRODUCT>().HasOne(p => p.MOISTURIZER).WithOne(m => m.PRODUCT).HasForeignKey<MOISTURIZER>(m=>m.ID).IsRequired();
 
-            modelBuilder.Entity<OWNERSHIP>().HasKey(p => new { p.UserID, p.ProductID });
+            // OWNERSHIP has ID as primary key (identity), not composite key
+            modelBuilder.Entity<OWNERSHIP>(entity =>
+            {
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<PROGRESSRECORD>().HasKey(p=> new { p.UserID, p.LogID });
+                // Add unique constraint for UserID and ProductID if business logic requires it
+                // entity.HasIndex(e => new { e.UserID, e.ProductID }).IsUnique();
+            });
 
-            modelBuilder.Entity<ROUTINESTEP>().HasKey(p => new { p.RoutineID, p.ProductID });
+            // PROGRESSRECORD has LogID as primary key (identity), not composite key
+            modelBuilder.Entity<PROGRESSRECORD>(entity =>
+            {
+                entity.HasKey(e => e.LogID);
+                entity.Property(e => e.LogID).ValueGeneratedOnAdd();
+            });
+
+            // ROUTINESTEP has ID as primary key (identity), not composite key
+            modelBuilder.Entity<ROUTINESTEP>(entity =>
+            {
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).ValueGeneratedOnAdd();
+            });
         }
 
         public DbSet<DataAccess.PRODUCT> PRODUCT { get; set; } = default!;
-        public DbSet<DataAccess.MOISTURIZER> MOISTURIZER { get; set; } = default!;
-        
+
+        public DbSet<DataAccess.OWNERSHIP> OWNERSHIP { get; set; } = default!;
+
+        public DbSet<DataAccess.User> User { get; set; } = default!;
+   
+public DbSet<DataAccess.ROUTINE> ROUTINE { get; set; } = default!;
+   
+public DbSet<DataAccess.ROUTINESTEP> ROUTINESTEP { get; set; } = default!;
+
     }
 }

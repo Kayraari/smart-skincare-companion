@@ -1,0 +1,185 @@
+﻿@page "/profile/addproduct/{userid:int}"
+@rendermode InteractiveServer
+@using DataAccess
+@using SengWeb.Data
+@using Microsoft.EntityFrameworkCore
+@inject SengWebContext DbContext
+@inject NavigationManager Navigation
+
+<PageTitle>Add Product to Profile</PageTitle>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3>Add Product to Your Collection</h3>
+                    <a href="@($"/profile/{UserId}")" class="btn btn-secondary">Back to Profile</a>
+                </div>
+                <div class="card-body">
+                    @if (products == null)
+                    {
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p>Loading products...</p>
+                        </div>
+                    }
+                    else if (!products.Any())
+                    {
+                        <p class="text-center">No products available.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in products)
+                                    {
+                                        <tr>
+                                            <td>@product.ProductName</td>
+                                            <td>@(product.Brand ?? "N/A")</td>
+                                            <td>@(product.Category ?? "N/A")</td>
+                                            <td>@(product.Description?.Length > 50 ? product.Description.Substring(0, 50) + "..." : product.Description ?? "No description")</td>
+                                            <td>
+                                                @if (IsProductOwned(product.ProductID))
+                                                {
+                                                    <span class="badge bg-success">Already Owned</span>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-primary btn-sm" @onclick="() => AddProductToUser(product.ProductID)" disabled="@isProcessing">
+                                                        @if (isProcessing && processingProductId == product.ProductID)
+                                                        {
+                                                            <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                                                        }
+                                                        Add
+                                                    </button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int UserId { get; set; }
+
+    private List<PRODUCT>? products;
+    private List<OWNERSHIP>? userOwnerships;
+    private bool isProcessing = false;
+    private int processingProductId = 0;
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            products = await DbContext.PRODUCT.ToListAsync();
+            userOwnerships = await DbContext.OWNERSHIP
+                .Where(o => o.UserID == UserId)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading data: {ex.Message}";
+        }
+    }
+
+    private bool IsProductOwned(int productId)
+    {
+        return userOwnerships?.Any(o => o.ProductID == productId) ?? false;
+    }
+
+    private async Task AddProductToUser(int productId)
+    {
+        if (isProcessing) return;
+
+        isProcessing = true;
+        processingProductId = productId;
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+
+        try
+        {
+            // Check if ownership already exists
+            var existingOwnership = await DbContext.OWNERSHIP
+                .FirstOrDefaultAsync(o => o.UserID == UserId && o.ProductID == productId);
+
+            if (existingOwnership != null)
+            {
+                errorMessage = "You already own this product.";
+                return;
+            }
+
+            // Create new ownership record
+            var ownership = new OWNERSHIP
+                {
+                    UserID = UserId,
+                    ProductID = productId,
+                    Quantity = 1, // Default quantity
+                    ExpiryDate = null, // Can be set later
+                    LastModified = DateTime.Now
+                };
+
+            DbContext.OWNERSHIP.Add(ownership);
+            await DbContext.SaveChangesAsync();
+
+            // Refresh the ownership list
+            userOwnerships = await DbContext.OWNERSHIP
+                .Where(o => o.UserID == UserId)
+                .ToListAsync();
+
+            var product = products?.FirstOrDefault(p => p.ProductID == productId);
+            successMessage = $"Successfully added {product?.ProductName ?? "product"} to your collection!";
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error adding product: {ex.Message}";
+        }
+        finally
+        {
+            isProcessing = false;
+            processingProductId = 0;
+        }
+    }
+}
