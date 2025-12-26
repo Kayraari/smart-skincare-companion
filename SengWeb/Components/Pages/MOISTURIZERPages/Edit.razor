@@ -1,0 +1,94 @@
+﻿@page "/moisturizers/edit"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>MOISTURIZER</h2>
+<hr />
+@if (MOISTURIZER is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="MOISTURIZER" OnValidSubmit="UpdateMOISTURIZER" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="MOISTURIZER.ID" value="@MOISTURIZER.ID" />
+                <div class="mb-3">
+                    <label for="texture" class="form-label">Texture:</label>
+                    <InputText id="texture" @bind-Value="MOISTURIZER.Texture" class="form-control" />
+                    <ValidationMessage For="() => MOISTURIZER.Texture" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="isnightcream" class="form-label">IsNightCream:</label>
+                    @* <InputCheckbox id="isnightcream" Value="MOISTURIZER.IsNightCream" class="form-check-input" /> *@
+                    <ValidationMessage For="() => MOISTURIZER.IsNightCream" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/moisturizers">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int ID { get; set; }
+
+    [SupplyParameterFromForm]
+    private MOISTURIZER? MOISTURIZER { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        MOISTURIZER ??= await context.MOISTURIZER.FirstOrDefaultAsync(m => m.ID == ID);
+
+        if (MOISTURIZER is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateMOISTURIZER()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(MOISTURIZER!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!MOISTURIZERExists(MOISTURIZER!.ID))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/moisturizers");
+    }
+
+    private bool MOISTURIZERExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.MOISTURIZER.Any(e => e.ID == id);
+    }
+}

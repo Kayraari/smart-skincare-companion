@@ -1,0 +1,40 @@
+﻿@page "/products"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using DataAccess
+@using SengWeb.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="products/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.PRODUCT">
+    <PropertyColumn Property="product => product.ProductName" />
+    <PropertyColumn Property="product => product.Brand" />
+    <PropertyColumn Property="product => product.Category" />
+    <PropertyColumn Property="product => product.Description" />
+    <PropertyColumn Property="product => product.LastModified" />
+
+    <TemplateColumn Context="product">
+        <a href="@($"products/edit?id={product.ID}")">Edit</a> |
+        <a href="@($"products/details?id={product.ID}")">Details</a> |
+        <a href="@($"products/delete?id={product.ID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private SengWebContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

@@ -1,0 +1,49 @@
+﻿@page "/moisturizers/create"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>MOISTURIZER</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="MOISTURIZER" OnValidSubmit="AddMOISTURIZER" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="texture" class="form-label">Texture:</label> 
+                <InputText id="texture" @bind-Value="MOISTURIZER.Texture" class="form-control" /> 
+                <ValidationMessage For="() => MOISTURIZER.Texture" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="isnightcream" class="form-label">IsNightCream:</label> 
+                <InputCheckbox id="isnightcream" @Value="MOISTURIZER.IsNightCream" class="form-check-input" /> 
+                <ValidationMessage For="() => MOISTURIZER.IsNightCream" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/moisturizers">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private MOISTURIZER MOISTURIZER { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddMOISTURIZER()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.MOISTURIZER.Add(MOISTURIZER);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/moisturizers");
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c70fb9c6c19440888d5a966161523b94" Name="Diagram1" ZoomLevel="109">
+        <EntityTypeShape EntityType="Model.CLEANSER" Width="1.5" PointX="5.25" PointY="15.75" />
+        <EntityTypeShape EntityType="Model.INGREDIENT" Width="1.5" PointX="0.75" PointY="9" />
+        <EntityTypeShape EntityType="Model.MOISTURIZER" Width="1.5" PointX="5.25" PointY="18.5" />
+        <EntityTypeShape EntityType="Model.ROUTINE" Width="1.5" PointX="6" PointY="4.875" />
+        <EntityTypeShape EntityType="Model.SUNSCREEN" Width="1.5" PointX="5.25" PointY="13.125" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="3" PointY="3.375" />
+        <AssociationConnector Association="Model.FK__ROUTINE__UserID__59063A47" />
+        <EntityTypeShape EntityType="Model.OWNERSHIP" Width="1.5" PointX="5.25" PointY="8.5" />
+        <EntityTypeShape EntityType="Model.PROGRESSRECORD" Width="1.5" PointX="5.25" PointY="0.75" />
+        <AssociationConnector Association="Model.FK__OWNERSHIP__UserI__5070F446" />
+        <AssociationConnector Association="Model.FK__PROGRESSR__UserI__5535A963" />
+        <EntityTypeShape EntityType="Model.ROUTINESTEP" Width="1.5" PointX="8.25" PointY="7.125" />
+        <AssociationConnector Association="Model.FK__ROUTINEST__Routi__5CD6CB2B" />
+        <EntityTypeShape EntityType="Model.PRODUCT" Width="1.5" PointX="3" PointY="8.375" />
+        <AssociationConnector Association="Model.FK__CLEANSER__Produc__440B1D61" />
+        <AssociationConnector Association="Model.FK__MOISTURIZ__Produ__412EB0B6" />
+        <AssociationConnector Association="Model.FK__OWNERSHIP__Produ__5165187F" />
+        <AssociationConnector Association="Model.FK__ROUTINEST__Produ__5DCAEF64" />
+        <AssociationConnector Association="Model.FK__SUNSCREEN__Produ__3E52440B" />
+        <AssociationConnector Association="Model.PRODUCTINGREDIENT" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,68 @@
+﻿@page "/products/create"
+@using Microsoft.EntityFrameworkCore
+@using DataAccess
+@inject IDbContextFactory<SengWeb.Data.SengWebContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>PRODUCT</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="PRODUCT" OnValidSubmit="AddPRODUCT" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="productname" class="form-label">ProductName:</label> 
+                <InputText id="productname" @bind-Value="PRODUCT.ProductName" class="form-control" /> 
+                <ValidationMessage For="() => PRODUCT.ProductName" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="brand" class="form-label">Brand:</label> 
+                <InputText id="brand" @bind-Value="PRODUCT.Brand" class="form-control" /> 
+                <ValidationMessage For="() => PRODUCT.Brand" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label> 
+                <InputText id="category" @bind-Value="PRODUCT.Category" class="form-control" /> 
+                <ValidationMessage For="() => PRODUCT.Category" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label> 
+                <InputText id="description" @bind-Value="PRODUCT.Description" class="form-control" /> 
+                <ValidationMessage For="() => PRODUCT.Description" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="lastmodified" class="form-label">LastModified:</label> 
+                <InputDate id="lastmodified" @bind-Value="PRODUCT.LastModified" class="form-control" /> 
+                <ValidationMessage For="() => PRODUCT.LastModified" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/products">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private PRODUCT PRODUCT { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddPRODUCT()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        Random rnd = new Random();
+        PRODUCT.ID = rnd.Next(100000, 999999);
+
+        context.PRODUCT.Add(PRODUCT);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/products");
+    }
+}
