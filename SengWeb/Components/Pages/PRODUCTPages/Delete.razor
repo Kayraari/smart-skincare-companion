@@ -37,10 +37,7 @@
             <dt class="col-sm-2">LastModified</dt>
             <dd class="col-sm-10">@product.LastModified</dd>
         </dl>
-        <EditForm method="post" Model="product" OnValidSubmit="DeletePRODUCT" FormName="delete" Enhance>
-            <button type="submit" class="btn btn-danger" disabled="@(product is null)">Delete</button> |
-            <a href="/products">Back to List</a>
-        </EditForm>
+        
     }
 </div>
 

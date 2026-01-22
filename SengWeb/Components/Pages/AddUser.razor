@@ -1,0 +1,103 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@using DataAccess
+@using SengWeb.Data
+@inject SengWebContext DbContext
+@inject NavigationManager NavigationManager
+
+<h3>Register</h3>
+
+<EditForm Model="@registerModel" OnValidSubmit="RegisterUserAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Email</label>
+        <InputText class="form-control" @bind-Value="registerModel.Email" />
+        <ValidationMessage For="@(() => registerModel.Email)" />
+    </div>
+    <div class="mb-3">
+        <label>Password</label>
+        <InputText class="form-control" @bind-Value="registerModel.Password" type="password" />
+        <ValidationMessage For="@(() => registerModel.Password)" />
+    </div>
+    <div class="mb-3">
+        <label>Skin Type</label>
+        <InputText class="form-control" @bind-Value="registerModel.SkinType" />
+    </div>
+    <div class="mb-3">
+        <label>Skin Goals</label>
+        <InputText class="form-control" @bind-Value="registerModel.SkinGoals" />
+    </div>
+    <div class="mb-3">
+        <label>Age</label>
+        <InputNumber class="form-control" @bind-Value="registerModel.Age" />
+    </div>
+    <div class="mb-3">
+        <label>Allergies</label>
+        <InputText class="form-control" @bind-Value="registerModel.Allergies" />
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success mt-3">@successMessage</div>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger mt-3">@errorMessage</div>
+}
+
+@code {
+    private RegisterViewModel registerModel = new();
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
+    private async Task RegisterUserAsync()
+    {
+        try
+        {
+            // Validation otomatik çalışacak
+            var user = new User
+            {
+                Email = registerModel.Email,
+                PasswordHash = registerModel.Password, // Prod ortamda hash kullanın!
+                SkinType = registerModel.SkinType,
+                SkinGoals = registerModel.SkinGoals,
+                Age = registerModel.Age,
+                Allergies = registerModel.Allergies,
+                LastModified = DateTime.Now
+            };
+
+            DbContext.User.Add(user);
+            await DbContext.SaveChangesAsync();
+
+            successMessage = "Registration successful! Redirecting to login...";
+            errorMessage = string.Empty;
+
+            await Task.Delay(2000);
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error registering user: {ex.Message}";
+            successMessage = string.Empty;
+        }
+    }
+
+    public class RegisterViewModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; } = string.Empty;
+
+        public string SkinType { get; set; } = string.Empty;
+        public string SkinGoals { get; set; } = string.Empty;
+        public int? Age { get; set; }
+        public string Allergies { get; set; } = string.Empty;
+    }
+}

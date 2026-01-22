@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="ROUTINE" OnValidSubmit="AddROUTINE" FormName="create" Enhance>
+        <EditForm  Model="ROUTINE" OnValidSubmit="AddROUTINE"  >
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
@@ -45,7 +45,7 @@
 </div>
 
 @code {
-    [SupplyParameterFromForm]
+    //[SupplyParameterFromForm]
     private ROUTINE ROUTINE { get; set; } = new();
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.

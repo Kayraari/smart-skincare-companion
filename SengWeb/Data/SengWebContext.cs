@@ -52,8 +52,8 @@ namespace SengWeb.Data
         public DbSet<DataAccess.User> User { get; set; } = default!;
    
 public DbSet<DataAccess.ROUTINE> ROUTINE { get; set; } = default!;
-   
-public DbSet<DataAccess.ROUTINESTEP> ROUTINESTEP { get; set; } = default!;
+
+        public DbSet<DataAccess.ROUTINESTEP> ROUTINESTEP { get; set; } = default!;
 
     }
 }

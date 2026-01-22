@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="ROUTINESTEP" OnValidSubmit="AddROUTINESTEP" FormName="create" Enhance>
+        <EditForm  Model="ROUTINESTEP" OnValidSubmit="AddROUTINESTEP" >
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
@@ -50,7 +50,7 @@
 </div>
 
 @code {
-    [SupplyParameterFromForm]
+    //[SupplyParameterFromForm]
     private ROUTINESTEP ROUTINESTEP { get; set; } = new();
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.

@@ -1,0 +1,149 @@
+﻿@page "/profile/routines/{userid:int}"
+@rendermode InteractiveServer
+@using DataAccess
+@using SengWeb.Data
+@using Microsoft.EntityFrameworkCore
+@inject SengWebContext DbContext
+@inject NavigationManager Navigation
+
+<PageTitle>Create Routine</PageTitle>
+
+<div class="container mt-4">
+    <h3>Create New Routine</h3>
+    <EditForm Model="@routineModel" OnValidSubmit="CreateRoutine">
+        <div class="mb-3">
+            <label class="form-label">Routine Name</label>
+            <InputText class="form-control" @bind-Value="routineModel.RoutineName" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Routine Type</label>
+            <InputText class="form-control" @bind-Value="routineModel.RoutineType" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Select Products</label>
+            @if (ownedProducts == null)
+            {
+                <div>Loading products...</div>
+            }
+            else if (!ownedProducts.Any())
+            {
+                <div>You don't own any products.</div>
+            }
+            else
+            {
+                @foreach (var product in ownedProducts)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="@product.ProductID"
+                               @onchange="e => OnProductSelected(product.ProductID, e.Value is bool b && b)" />
+                        <label class="form-check-label">@product.PRODUCT.ProductName</label>
+                    </div>
+                }
+            }
+        </div>
+        <button class="btn btn-primary" type="submit" disabled="@isProcessing">
+            @if (isProcessing)
+            {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+            }
+            Create Routine
+        </button>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success mt-3">@successMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger mt-3">@errorMessage</div>
+    }
+</div>
+
+@code {
+    [Parameter] public int UserId { get; set; }
+
+    private List<OWNERSHIP>? ownedProducts;
+    private RoutineModel routineModel = new();
+    private HashSet<int> selectedProductIds = new();
+    private bool isProcessing = false;
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ownedProducts = await DbContext.OWNERSHIP
+            .Include(o => o.PRODUCT)
+            .Where(o => o.UserID == UserId)
+            .ToListAsync();
+    }
+
+    private void OnProductSelected(int productId, bool isSelected)
+    {
+        if (isSelected)
+            selectedProductIds.Add(productId);
+        else
+            selectedProductIds.Remove(productId);
+    }
+
+    private async Task CreateRoutine()
+    {
+        if (!selectedProductIds.Any())
+        {
+            errorMessage = "Please select at least one product.";
+            return;
+        }
+
+        isProcessing = true;
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+
+        try
+        {
+            // Create routine
+            var routine = new ROUTINE
+                {
+                    UserID = UserId,
+                    RoutineName = routineModel.RoutineName,
+                    RoutineType = routineModel.RoutineType,
+                    LastModified = DateTime.Now
+                };
+            DbContext.Add(routine);
+            await DbContext.SaveChangesAsync();
+
+            // Add steps for selected products
+            int stepOrder = 1;
+            foreach (var productId in selectedProductIds)
+            {
+                var step = new ROUTINESTEP
+                    {
+                        RoutineID = routine.RoutineID,
+                        StepOrder = stepOrder++,
+                        ProductID = productId,
+                        Notes = null,
+                        LastModified = DateTime.Now
+                    };
+                DbContext.Add(step);
+            }
+            await DbContext.SaveChangesAsync();
+
+            successMessage = "Routine created successfully!";
+            routineModel = new();
+            selectedProductIds.Clear();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error creating routine: {ex.Message}";
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    public class RoutineModel
+    {
+        public string RoutineName { get; set; } = string.Empty;
+        public string RoutineType { get; set; } = string.Empty;
+    }
+}

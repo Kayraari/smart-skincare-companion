@@ -38,20 +38,92 @@
             </div>
         </div>
 
-        <div class="mt-3">
-            <a href="/" class="btn btn-secondary me-2">Back to Login</a>
-            <a href="@($"/profile/addproduct/{user?.UserID}")" class="btn btn-primary">
-                Add Product
-            </a>
-        </div>
+            <div class="mt-3">
+                <a href="/" class="btn btn-secondary me-2">Back to Login</a>
+                <a href="@($"/profile/addproduct/{user?.UserID}")" class="btn btn-primary me-2">
+                    Add Product
+                </a>
+                <a href="@($"/profile/routines/{user?.UserID}")" class="btn btn-info">
+                    View Routines
+                </a>
+            </div>
+
+
 
         <!-- Product list section -->
+        @if (userRoutines != null && userRoutines.Any())
+        {
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>My Routines</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Routine Name</th>
+                                            <th>Routine Type</th>
+                                            <th>Last Modified</th>
+                                            <th>Steps</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var routine in userRoutines)
+                                        {
+                                            <tr>
+                                                <td>@routine.RoutineName</td>
+                                                <td>@routine.RoutineType</td>
+                                                <td>@routine.LastModified.ToString("yyyy-MM-dd HH:mm")</td>
+                                                <td>
+                                                    @if (routineSteps.TryGetValue(routine.RoutineID, out var steps) && steps.Any())
+                                                    {
+                                                        <ul class="mb-0">
+                                                            @foreach (var step in steps)
+                                                            {
+                                                                <li>
+                                                                    <b>@step.StepOrder.</b>
+                                                                    @step.PRODUCT?.ProductName
+                                                                    @if (!string.IsNullOrWhiteSpace(step.Notes))
+                                                                    {
+                                                                        <span class="text-muted">(@step.Notes)</span>
+                                                                    }
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">No steps</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (userRoutines != null)
+        {
+            <div class="alert alert-info mt-3">You don't have any routines yet.</div>
+        }
+
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>My Products</h4>
                     </div>
+
+
+
+
                     <div class="card-body">
                         @if (userOwnedProducts == null)
                         {
@@ -115,7 +187,7 @@
                 </div>
             </div>
         </div>
-        
+
     }
 </div>
 
@@ -136,21 +208,16 @@
 }
 
 @code {
-    [Parameter] public int UserId { get; set; }
-
-    private User? user;
-    private List<OWNERSHIP>? userOwnedProducts;
-    private bool isProcessing = false;
-    private int processingProductId = 0;
-    private string successMessage = string.Empty;
-    private string errorMessage = string.Empty;
+    private List<ROUTINE>? userRoutines;
+    private Dictionary<int, List<ROUTINESTEP>> routineSteps = new();
 
     protected override async Task OnInitializedAsync()
+    
     {
         await LoadUserData();
         await LoadUserProducts();
+        await LoadUserRoutines();
     }
-
     private async Task LoadUserData()
     {
         try
@@ -178,7 +245,30 @@
             errorMessage = $"Error loading user products: {ex.Message}";
         }
     }
-
+    private async Task LoadUserRoutines()
+    {
+        try
+        {
+            userRoutines = await DbContext.ROUTINE
+                .Where(r => r.UserID == UserId)
+                .OrderBy(r => r.RoutineName)
+                .ToListAsync();
+            routineSteps.Clear();
+            foreach (var routine in userRoutines)
+            {
+                var steps = await DbContext.ROUTINESTEP
+                    .Include(s => s.PRODUCT)
+                    .Where(s => s.RoutineID == routine.RoutineID)
+                    .OrderBy(s => s.StepOrder)
+                    .ToListAsync();
+                routineSteps[routine.RoutineID] = steps;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading routines: {ex.Message}";
+        }
+    }
     private async Task RemoveProduct(int productId)
     {
         if (isProcessing) return;
@@ -199,15 +289,13 @@
                 return;
             }
 
-            var productName = userOwnedProducts?.FirstOrDefault(o => o.ProductID == productId)?.PRODUCT?.ProductName ?? "product";
-
             DbContext.OWNERSHIP.Remove(ownership);
             await DbContext.SaveChangesAsync();
 
             // Refresh the product list
             await LoadUserProducts();
 
-            successMessage = $"Successfully removed {productName} from your collection!";
+            successMessage = "Successfully removed product from your collection!";
         }
         catch (Exception ex)
         {
@@ -219,4 +307,22 @@
             processingProductId = 0;
         }
     }
-}
+
+
+
+   
+
+    [Parameter] public int UserId { get; set; }
+    
+
+    private User? user;
+    private List<OWNERSHIP>? userOwnedProducts;
+    private bool isProcessing = false;
+    private int processingProductId = 0;
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
+    
+   }
+
+    
