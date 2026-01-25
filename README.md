@@ -160,6 +160,8 @@ The application is pre-configured for LocalDB:
 }
 ```
 
+> **⚠️ Security Note**: The default connection string disables encryption (`Encrypt=false`) and trusts server certificates (`TrustServerCertificate=true`) for local development convenience. For production environments, use secure settings with proper encryption and certificate validation.
+
 #### Option B: Using SQL Server
 
 1. Open `SengWeb/appsettings.json`
@@ -172,6 +174,8 @@ The application is pre-configured for LocalDB:
 ```
 
 Replace `YOUR_SERVER_NAME` with your SQL Server instance name.
+
+> **⚠️ Security Note**: This connection string is configured for local development. For production deployments, enable encryption (`Encrypt=true`), use proper certificate validation, and consider using secure credential management instead of integrated authentication.
 
 ### 5. Create the Database
 
